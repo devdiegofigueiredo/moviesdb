@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/container"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/container"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginBottom="@dimen/small_default_margin"
+android:layout_marginEnd="@dimen/small_default_margin"
+android:layout_marginStart="@dimen/small_default_margin"
+android:layout_marginTop="@dimen/small_default_margin"
+app:cardBackgroundColor="@color/light_gray">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/small_default_margin"
-    android:layout_marginEnd="@dimen/small_default_margin"
-    android:layout_marginStart="@dimen/small_default_margin"
-    android:layout_marginTop="@dimen/small_default_margin"
     android:foreground="?android:attr/selectableItemBackground"
     android:orientation="vertical">
 
@@ -14,7 +20,8 @@
         android:id="@+id/genre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_gray"
+        android:layout_marginStart="@dimen/small_default_margin"
+        android:layout_marginTop="4dp"
         android:textSize="16sp" />
 
     <android.support.v7.widget.RecyclerView
@@ -25,3 +32,5 @@
         android:clipToPadding="false" />
 
 </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.project.moviesdb.moviesdb.R;
 import com.project.moviesdb.moviesdb.entities.Genre;
 import com.project.moviesdb.moviesdb.entities.Movie;
+import com.project.moviesdb.moviesdb.ui.movies.details.MovieDetailsActivity;
 import com.project.moviesdb.moviesdb.util.LoadingUtil;
 
 import java.util.List;
@@ -91,6 +92,9 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
 
     @Override
     public void startDetailsMovie(String jsonMovie) {
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+        intent.putExtra(MovieDetailsActivity.EXTRA_JSON_MOVIE, jsonMovie);
+        startActivity(intent);
     }
 
     private View.OnClickListener onTryAgainClicked() {

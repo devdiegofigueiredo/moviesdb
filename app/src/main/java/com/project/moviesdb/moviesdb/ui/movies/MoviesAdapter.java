@@ -1,5 +1,7 @@
 package com.project.moviesdb.moviesdb.ui.movies;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,11 +26,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     private List<Movie> movies = new ArrayList<>();
     private MovieClick callback;
+    private final Context context;
 
-    public MoviesAdapter(MovieClick callback) {
+    public MoviesAdapter(MovieClick callback, Context context) {
         this.callback = callback;
+        this.context = context;
     }
-
 
     @NonNull
     @Override
@@ -36,10 +39,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         return new MoviesAdapter.ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movies_item, viewGroup, false));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Picasso.get().load(BuildConfig.image_base_url + movies.get(position).getPosterPath()).into(holder.image);
-        holder.popularity.setText(String.valueOf(movies.get(position).getPopularity()));
+        holder.popularity.setText(context.getString(R.string.views) + String.valueOf(movies.get(position).getPopularity()));
         holder.itemView.setOnClickListener(onMovieClicked(movies.get(position)));
     }
 

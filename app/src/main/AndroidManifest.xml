@@ -20,6 +20,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.movies.details.MovieDetailsActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

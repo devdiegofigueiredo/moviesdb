@@ -49,7 +49,7 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         if (position >= adapters.size() && position <= genres.size()) {
-            adapters.add(new MoviesAdapter(this));
+            adapters.add(new MoviesAdapter(this, context));
             loadGenre.loadMovies(genres.get(position).getId(), position);
         }
 
@@ -65,7 +65,7 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
 
     @Override
     public void onMovieClicked(Movie movie) {
-
+        movieClicked.onMovieClicked(movie);
     }
 
     public void addMovies(List<Movie> movies, int position) {

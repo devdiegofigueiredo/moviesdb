@@ -10,7 +10,7 @@
         <item name="colorControlNormal">@android:color/white</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="colorControlActivated">@android:color/white</item>
-        <item name="colorControlHighlight">@android:color/white</item>
+        <item name="colorControlHighlight">@android:color/darker_gray</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
