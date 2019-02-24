@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">moviesdb</string>
+    <string name="genres">Genres</string>
+    <string name="wait_search_genres">Wait, we are searching the genres.</string>
+    <string name="try_again">Try again</string>
+    <string name="no_gender_found">No gender was found</string>
+
 </resources>
