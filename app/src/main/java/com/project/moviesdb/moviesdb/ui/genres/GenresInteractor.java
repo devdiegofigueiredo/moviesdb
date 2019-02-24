@@ -32,8 +32,8 @@ public class GenresInteractor implements GenresContract.Interactor {
     }
 
     @Override
-    public void getMovies(MoviesCallback callback, String genreId, int position) {
-        Call<MoviesResponse> callMovies = BaseService.getMoviesService().getMovies(BuildConfig.api_key, genreId, "");
+    public void getMovies(MoviesCallback callback, String genreId, int position, int page) {
+        Call<MoviesResponse> callMovies = BaseService.getMoviesService().getMovies(BuildConfig.api_key, genreId, String.valueOf(page));
         callMovies.enqueue(callbackMovies(callback, position));
     }
 

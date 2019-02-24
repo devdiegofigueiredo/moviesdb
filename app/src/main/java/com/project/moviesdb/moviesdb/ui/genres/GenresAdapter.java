@@ -20,7 +20,7 @@ import java.util.List;
 public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder> implements MoviesAdapter.MovieClick {
 
     interface GenreCallback {
-        void loadMovies(String id, int position);
+        void loadMovies(String id, int position, int page);
     }
 
     interface MoviesCallback {
@@ -32,12 +32,17 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
     private final MoviesCallback movieClicked;
     private final Context context;
     private final List<MoviesAdapter> adapters = new ArrayList<>();
+    private final MoviesAdapter.LoadMovies callbackPagination;
 
-    GenresAdapter(List<Genre> genres, GenreCallback loadGenre, MoviesCallback movieClicked, Context context) {
+    GenresAdapter(List<Genre> genres, GenreCallback loadGenre,
+                  MoviesCallback movieClicked,
+                  Context context,
+                  MoviesAdapter.LoadMovies callbackPagination) {
         this.genres = genres;
         this.context = context;
         this.loadGenre = loadGenre;
         this.movieClicked = movieClicked;
+        this.callbackPagination = callbackPagination;
     }
 
     @NonNull
@@ -49,8 +54,8 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         if (position >= adapters.size() && position <= genres.size()) {
-            adapters.add(new MoviesAdapter(this, context));
-            loadGenre.loadMovies(genres.get(position).getId(), position);
+            adapters.add(new MoviesAdapter(this, context, callbackPagination, genres.get(position).getId(), position));
+            loadGenre.loadMovies(genres.get(position).getId(), position, 1);
         }
 
         viewHolder.genre.setText(genres.get(position).getName());

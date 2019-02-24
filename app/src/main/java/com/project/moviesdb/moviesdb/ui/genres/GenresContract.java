@@ -41,7 +41,7 @@ public interface GenresContract {
 
         void getGenres();
 
-        void getMovies(String id, int position);
+        void getMovies(String id, int position, int page);
 
         void onMovieClicked(Movie movie);
     }
@@ -49,7 +49,7 @@ public interface GenresContract {
     interface Interactor {
         void getGenres(Presenter.GenresCallback callback);
 
-        void getMovies(Presenter.MoviesCallback callback, String genreId, int position);
+        void getMovies(Presenter.MoviesCallback callback, String genreId, int position, int page);
 
         void convetMovieToText(Presenter.ConvertMovieCallback callback, Movie movie);
     }

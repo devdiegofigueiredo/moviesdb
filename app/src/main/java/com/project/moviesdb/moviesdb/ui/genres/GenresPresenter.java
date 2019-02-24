@@ -25,8 +25,8 @@ public class GenresPresenter implements GenresContract.Presenter,
     }
 
     @Override
-    public void getMovies(String id, int position) {
-        interactor.getMovies(this, id, position);
+    public void getMovies(String id, int position, int page) {
+        interactor.getMovies(this, id, position, page);
     }
 
     @Override

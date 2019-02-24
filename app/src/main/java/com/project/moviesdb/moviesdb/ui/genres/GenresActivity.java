@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.project.moviesdb.moviesdb.R;
 import com.project.moviesdb.moviesdb.entities.Genre;
 import com.project.moviesdb.moviesdb.entities.Movie;
+import com.project.moviesdb.moviesdb.ui.movies.MoviesAdapter;
 import com.project.moviesdb.moviesdb.ui.movies.details.MovieDetailsActivity;
 import com.project.moviesdb.moviesdb.util.LoadingUtil;
 
@@ -22,7 +23,8 @@ import java.util.List;
 
 public class GenresActivity extends AppCompatActivity implements GenresContract.View,
         GenresAdapter.GenreCallback,
-        GenresAdapter.MoviesCallback {
+        GenresAdapter.MoviesCallback,
+        MoviesAdapter.LoadMovies {
 
     private AlertDialog loading;
     private LinearLayout erroView;
@@ -62,7 +64,7 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
 
     @Override
     public void setupGenres(List<Genre> genres) {
-        adapter = new GenresAdapter(genres, this, this, this);
+        adapter = new GenresAdapter(genres, this, this, this, this);
 
         if (genresList.getVisibility() == View.GONE) {
             genresList.setVisibility(View.VISIBLE);
@@ -110,8 +112,8 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
     }
 
     @Override
-    public void loadMovies(String id, int position) {
-        presenter.getMovies(id, position);
+    public void loadMovies(String id, int position, int genresPosition) {
+        presenter.getMovies(id, position, genresPosition);
     }
 
     private void setupToolbar() {
@@ -123,5 +125,10 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
     @Override
     public void onMovieClicked(Movie movie) {
         presenter.onMovieClicked(movie);
+    }
+
+    @Override
+    public void loadMoreMovies(int page, String genreId, int position) {
+        presenter.getMovies(genreId, position, page);
     }
 }
