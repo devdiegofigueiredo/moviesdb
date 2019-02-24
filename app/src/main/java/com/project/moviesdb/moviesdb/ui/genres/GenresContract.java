@@ -19,6 +19,8 @@ public interface GenresContract {
         void addMovies(List<Movie> movies, int position);
 
         void startDetailsMovie(String jsonMovie);
+
+        void hideGenres(String genreId);
     }
 
     interface Presenter {

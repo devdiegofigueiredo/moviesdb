@@ -99,6 +99,11 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
         startActivity(intent);
     }
 
+    @Override
+    public void hideGenres(String genreId) {
+        adapter.removeMovies(genreId);
+    }
+
     private View.OnClickListener onTryAgainClicked() {
         return new View.OnClickListener() {
             @Override

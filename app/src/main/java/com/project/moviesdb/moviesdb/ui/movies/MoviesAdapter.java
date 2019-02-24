@@ -87,6 +87,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public String getGenreId() {
+        return genreId;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;

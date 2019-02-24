@@ -77,6 +77,15 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
         adapters.get(position).addMovies(movies);
     }
 
+    public void removeMovies(String genreId) {
+        for (int i = 0; i < adapters.size(); i++) {
+            if (adapters.get(i).getGenreId().equals(genreId)) {
+                genres.remove(i);
+                notifyDataSetChanged();
+            }
+        }
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView genre;

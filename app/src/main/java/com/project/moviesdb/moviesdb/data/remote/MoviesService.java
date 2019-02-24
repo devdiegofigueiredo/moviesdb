@@ -1,7 +1,6 @@
 package com.project.moviesdb.moviesdb.data.remote;
 
 import com.project.moviesdb.moviesdb.BuildConfig;
-import com.project.moviesdb.moviesdb.ui.genres.entities.GenresResponse;
 import com.project.moviesdb.moviesdb.ui.movies.entities.MoviesResponse;
 
 import retrofit2.Call;
