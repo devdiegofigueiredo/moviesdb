@@ -3,11 +3,15 @@ package com.project.moviesdb.moviesdb.ui.genres;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.project.moviesdb.moviesdb.BuildConfig;
 import com.project.moviesdb.moviesdb.R;
 import com.project.moviesdb.moviesdb.data.remote.BaseService;
+import com.project.moviesdb.moviesdb.entities.Movie;
 import com.project.moviesdb.moviesdb.ui.genres.GenresContract.Presenter.GenresCallback;
+import com.project.moviesdb.moviesdb.ui.genres.GenresContract.Presenter.MoviesCallback;
 import com.project.moviesdb.moviesdb.ui.genres.entities.GenresResponse;
+import com.project.moviesdb.moviesdb.ui.movies.entities.MoviesResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,11 +27,23 @@ public class GenresInteractor implements GenresContract.Interactor {
 
     @Override
     public void getGenres(GenresCallback callback) {
-        Call<GenresResponse> callWeathers = BaseService.getGenresService().getGenres(BuildConfig.api_key);
-        callWeathers.enqueue(callbackWeather(callback));
+        Call<GenresResponse> callGenres = BaseService.getGenresService().getGenres(BuildConfig.api_key);
+        callGenres.enqueue(callbackGenres(callback));
     }
 
-    private Callback<GenresResponse> callbackWeather(final GenresCallback callback) {
+    @Override
+    public void getMovies(MoviesCallback callback, String genreId, int position) {
+        Call<MoviesResponse> callMovies = BaseService.getMoviesService().getMovies(BuildConfig.api_key, genreId, "");
+        callMovies.enqueue(callbackMovies(callback, position));
+    }
+
+    @Override
+    public void convetMovieToText(GenresContract.Presenter.ConvertMovieCallback callback, Movie movie) {
+        Gson gson = new Gson();
+        callback.convertedMovieToText(gson.toJson(movie));
+    }
+
+    private Callback<GenresResponse> callbackGenres(final GenresCallback callback) {
         return new Callback<GenresResponse>() {
 
             @Override
@@ -44,6 +60,27 @@ public class GenresInteractor implements GenresContract.Interactor {
             @Override
             public void onFailure(Call<GenresResponse> call, Throwable t) {
                 callback.onGenresError(t.getMessage(), context.getString(R.string.try_again));
+            }
+        };
+    }
+
+    private Callback<MoviesResponse> callbackMovies(final MoviesCallback callback, final int position) {
+        return new Callback<MoviesResponse>() {
+
+            @Override
+            public void onResponse(@NonNull Call<MoviesResponse> call, @NonNull Response<MoviesResponse> response) {
+                if (response.body() != null &&
+                        response.body().getResults() != null &&
+                        !response.body().getResults().isEmpty()) {
+                    callback.onMoviesSuccess(response.body().getResults(), position);
+                } else {
+                    callback.onMoviesError();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                callback.onMoviesError();
             }
         };
     }

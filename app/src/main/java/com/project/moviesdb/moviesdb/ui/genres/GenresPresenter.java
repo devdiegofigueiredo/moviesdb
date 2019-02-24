@@ -1,11 +1,14 @@
 package com.project.moviesdb.moviesdb.ui.genres;
 
 import com.project.moviesdb.moviesdb.entities.Genre;
+import com.project.moviesdb.moviesdb.entities.Movie;
 
 import java.util.List;
 
 public class GenresPresenter implements GenresContract.Presenter,
-        GenresContract.Presenter.GenresCallback {
+        GenresContract.Presenter.GenresCallback,
+        GenresContract.Presenter.MoviesCallback,
+        GenresContract.Presenter.ConvertMovieCallback {
 
     private final GenresContract.View view;
     private final GenresContract.Interactor interactor;
@@ -22,6 +25,16 @@ public class GenresPresenter implements GenresContract.Presenter,
     }
 
     @Override
+    public void getMovies(String id, int position) {
+        interactor.getMovies(this, id, position);
+    }
+
+    @Override
+    public void onMovieClicked(Movie movie) {
+        interactor.convetMovieToText(this, movie);
+    }
+
+    @Override
     public void onGenresSuccess(List<Genre> genres) {
         view.hideLoading();
         view.setupGenres(genres);
@@ -31,5 +44,20 @@ public class GenresPresenter implements GenresContract.Presenter,
     public void onGenresError(String message, String textButton) {
         view.hideLoading();
         view.showErrorView(message, textButton);
+    }
+
+    @Override
+    public void onMoviesSuccess(List<Movie> movies, int position) {
+        view.addMovies(movies, position);
+    }
+
+    @Override
+    public void onMoviesError() {
+
+    }
+
+    @Override
+    public void convertedMovieToText(String jsonMovie) {
+        view.startDetailsMovie(jsonMovie);
     }
 }

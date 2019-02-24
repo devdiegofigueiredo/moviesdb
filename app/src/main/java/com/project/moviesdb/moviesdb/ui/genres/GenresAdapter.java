@@ -1,7 +1,8 @@
 package com.project.moviesdb.moviesdb.ui.genres;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,21 +11,33 @@ import android.widget.TextView;
 
 import com.project.moviesdb.moviesdb.R;
 import com.project.moviesdb.moviesdb.entities.Genre;
+import com.project.moviesdb.moviesdb.entities.Movie;
+import com.project.moviesdb.moviesdb.ui.movies.MoviesAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder> {
+public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder> implements MoviesAdapter.MovieClick {
 
-    interface GenreClick {
-        void onGenreClicked(String id);
+    interface GenreCallback {
+        void loadMovies(String id, int position);
+    }
+
+    interface MoviesCallback {
+        void onMovieClicked(Movie movie);
     }
 
     private final List<Genre> genres;
-    private final GenreClick callback;
+    private final GenreCallback loadGenre;
+    private final MoviesCallback movieClicked;
+    private final Context context;
+    private final List<MoviesAdapter> adapters = new ArrayList<>();
 
-    GenresAdapter(List<Genre> genres, GenreClick genreCallback) {
+    GenresAdapter(List<Genre> genres, GenreCallback loadGenre, MoviesCallback movieClicked, Context context) {
         this.genres = genres;
-        this.callback = genreCallback;
+        this.context = context;
+        this.loadGenre = loadGenre;
+        this.movieClicked = movieClicked;
     }
 
     @NonNull
@@ -35,17 +48,14 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        viewHolder.genre.setText(genres.get(position).getName());
-        viewHolder.container.setOnClickListener(onGenreClicked(genres.get(position).getId()));
-    }
+        if (position >= adapters.size() && position <= genres.size()) {
+            adapters.add(new MoviesAdapter(this));
+            loadGenre.loadMovies(genres.get(position).getId(), position);
+        }
 
-    private View.OnClickListener onGenreClicked(final String id) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callback.onGenreClicked(id);
-            }
-        };
+        viewHolder.genre.setText(genres.get(position).getName());
+        viewHolder.movies.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        viewHolder.movies.setAdapter(adapters.get(position));
     }
 
     @Override
@@ -53,16 +63,25 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.ViewHolder
         return genres.size();
     }
 
+    @Override
+    public void onMovieClicked(Movie movie) {
+
+    }
+
+    public void addMovies(List<Movie> movies, int position) {
+        adapters.get(position).addMovies(movies);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView genre;
-        CardView container;
+        RecyclerView movies;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             genre = itemView.findViewById(R.id.genre);
-            container = itemView.findViewById(R.id.container);
+            movies = itemView.findViewById(R.id.movies);
         }
     }
 }

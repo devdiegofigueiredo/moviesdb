@@ -23,4 +23,8 @@ public class BaseService {
     public static GenresService getGenresService() {
         return getRetrofit(BuildConfig.base_url).create(GenresService.class);
     }
+
+    public static MoviesService getMoviesService() {
+        return getRetrofit(BuildConfig.base_url).create(MoviesService.class);
+    }
 }

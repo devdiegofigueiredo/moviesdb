@@ -14,13 +14,20 @@ android {
         debug {
             buildConfigField "String", "base_url", '"https://api.themoviedb.org/3/"'
             buildConfigField "String", "api_key", '"847ebc335ec35c933da2ecbacdf6b443"'
+            buildConfigField "String", "get_gender_api", '"genre/movie/list"'
+            buildConfigField "String", "get_movies_by_gender_api", '"discover/movie"'
+            buildConfigField "String", "image_base_url", '"https://image.tmdb.org/t/p/w300/"'
         }
 
         release {
-            buildConfigField "String", "base_url", '"https://api.themoviedb.org/3/"'
-            buildConfigField "String", "api_key", '"847ebc335ec35c933da2ecbacdf6b443"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "base_url", '"https://api.themoviedb.org/3/"'
+            buildConfigField "String", "api_key", '"847ebc335ec35c933da2ecbacdf6b443"'
+            buildConfigField "String", "get_gender_api", '"genre/movie/list"'
+            buildConfigField "String", "get_movies_by_gender_api", '"discover/movie"'
+            buildConfigField "String", "image_base_url", '"https://image.tmdb.org/t/p/w300/"'
         }
     }
 }
@@ -44,4 +51,6 @@ dependencies {
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersions"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersions"
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

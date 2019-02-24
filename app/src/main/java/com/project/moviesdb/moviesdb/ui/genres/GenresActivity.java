@@ -1,9 +1,10 @@
 package com.project.moviesdb.moviesdb.ui.genres;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,16 +14,20 @@ import android.widget.TextView;
 
 import com.project.moviesdb.moviesdb.R;
 import com.project.moviesdb.moviesdb.entities.Genre;
+import com.project.moviesdb.moviesdb.entities.Movie;
 import com.project.moviesdb.moviesdb.util.LoadingUtil;
 
 import java.util.List;
 
-public class GenresActivity extends AppCompatActivity implements GenresContract.View, GenresAdapter.GenreClick {
+public class GenresActivity extends AppCompatActivity implements GenresContract.View,
+        GenresAdapter.GenreCallback,
+        GenresAdapter.MoviesCallback {
 
     private AlertDialog loading;
     private LinearLayout erroView;
     private GenresPresenter presenter;
     private RecyclerView genresList;
+    private GenresAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +61,13 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
 
     @Override
     public void setupGenres(List<Genre> genres) {
-        GenresAdapter adapter = new GenresAdapter(genres, this);
+        adapter = new GenresAdapter(genres, this, this, this);
 
         if (genresList.getVisibility() == View.GONE) {
             genresList.setVisibility(View.VISIBLE);
         }
 
-        genresList.setLayoutManager(new GridLayoutManager(this, 2));
+        genresList.setLayoutManager(new LinearLayoutManager(this));
         genresList.setAdapter(adapter);
     }
 
@@ -79,6 +84,15 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
         button.setOnClickListener(onTryAgainClicked());
     }
 
+    @Override
+    public void addMovies(List<Movie> movies, int position) {
+        adapter.addMovies(movies, position);
+    }
+
+    @Override
+    public void startDetailsMovie(String jsonMovie) {
+    }
+
     private View.OnClickListener onTryAgainClicked() {
         return new View.OnClickListener() {
             @Override
@@ -92,13 +106,18 @@ public class GenresActivity extends AppCompatActivity implements GenresContract.
     }
 
     @Override
-    public void onGenreClicked(String id) {
-
+    public void loadMovies(String id, int position) {
+        presenter.getMovies(id, position);
     }
 
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.generic_toolbar);
         toolbar.setTitle(getString(R.string.genres));
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public void onMovieClicked(Movie movie) {
+        presenter.onMovieClicked(movie);
     }
 }
