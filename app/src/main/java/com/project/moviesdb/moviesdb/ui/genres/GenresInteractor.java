@@ -34,7 +34,7 @@ public class GenresInteractor implements GenresContract.Interactor {
     @Override
     public void getMovies(MoviesCallback callback, String genreId, int position, int page) {
         Call<MoviesResponse> callMovies = BaseService.getMoviesService().getMovies(BuildConfig.api_key, genreId, String.valueOf(page));
-        callMovies.enqueue(callbackMovies(callback, position));
+        callMovies.enqueue(callbackMovies(callback, position, genreId));
     }
 
     @Override
@@ -64,7 +64,7 @@ public class GenresInteractor implements GenresContract.Interactor {
         };
     }
 
-    private Callback<MoviesResponse> callbackMovies(final MoviesCallback callback, final int position) {
+    private Callback<MoviesResponse> callbackMovies(final MoviesCallback callback, final int position, final String genreId) {
         return new Callback<MoviesResponse>() {
 
             @Override
@@ -74,13 +74,13 @@ public class GenresInteractor implements GenresContract.Interactor {
                         !response.body().getResults().isEmpty()) {
                     callback.onMoviesSuccess(response.body().getResults(), position);
                 } else {
-                    callback.onMoviesError();
+                    callback.onMoviesError(genreId);
                 }
             }
 
             @Override
             public void onFailure(Call<MoviesResponse> call, Throwable t) {
-                callback.onMoviesError();
+                callback.onMoviesError(genreId);
             }
         };
     }

@@ -45,6 +45,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    androidTestImplementation "org.mockito:mockito-android:2.15.0"
+    testImplementation 'org.mockito:mockito-core:2.15.0'
+
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:design:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"

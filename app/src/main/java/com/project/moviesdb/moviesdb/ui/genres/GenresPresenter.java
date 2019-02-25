@@ -13,7 +13,7 @@ public class GenresPresenter implements GenresContract.Presenter,
     private final GenresContract.View view;
     private final GenresContract.Interactor interactor;
 
-    GenresPresenter(GenresContract.View view, GenresContract.Interactor interactor) {
+    public GenresPresenter(GenresContract.View view, GenresContract.Interactor interactor) {
         this.view = view;
         this.interactor = interactor;
     }
@@ -52,8 +52,8 @@ public class GenresPresenter implements GenresContract.Presenter,
     }
 
     @Override
-    public void onMoviesError() {
-
+    public void onMoviesError(String genreId) {
+        view.hideGenres(genreId);
     }
 
     @Override

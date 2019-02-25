@@ -34,7 +34,7 @@ public interface GenresContract {
         interface MoviesCallback {
             void onMoviesSuccess(List<Movie> movies, int position);
 
-            void onMoviesError();
+            void onMoviesError(String genreId);
         }
 
         interface ConvertMovieCallback {
