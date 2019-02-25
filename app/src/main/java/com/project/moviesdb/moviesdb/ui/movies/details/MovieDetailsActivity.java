@@ -50,10 +50,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         overview.setText(movie.getOverview());
 
         TextView popularity = findViewById(R.id.popularity);
-        popularity.setText(String.valueOf(movie.getPopularity()));
+        popularity.setText(getString(R.string.popularity) + String.valueOf(movie.getPopularity()));
 
         TextView releaseDate = findViewById(R.id.release_date);
-        releaseDate.setText(movie.getReleaseDate());
+        releaseDate.setText(getString(R.string.release_date) +movie.getReleaseDate());
     }
 
     private void setupToolbar() {
